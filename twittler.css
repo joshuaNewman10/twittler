@@ -1,0 +1,61 @@
+/** {
+  border: 1px solid Blue !important; 
+}*/
+
+* {
+  -webkit-box-sizing: border-box; /*browser specific*/
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+h1 {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
+.username {
+  text-align: right;
+}
+
+.input {
+  width: 900px;
+}
+
+.tweets > div p, a {
+
+}
+
+.tweets > div p {
+  border-style: ridge;
+  border-left-style: none;
+}
+
+.tweets > div a {
+  border-style: ridge;
+  border-right-style: none;
+}
+
+.back {
+
+}
+
+
