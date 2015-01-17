@@ -14,6 +14,8 @@
         <div class ="col-md-2 logo">
         <img src ="Images/angry_bird.jpg" alt="Angry Bird">
         </div>
+        <div class ="col-md-6">
+        </div>
         <div class ="col-md-4">
         <h1>Twittler</h1>
         </div>
@@ -44,7 +46,7 @@
         refresh = false;
         var name = this.text.slice(1);
         var usersTweets = tweets.filter(function(t) {
-          return name === t.className;
+          return t.className.indexOf(name) > -1;
         });
 
         $('.tweets').html('');
@@ -55,7 +57,11 @@
         var $back = $('<button></button>');
         $back.text('Back to the stream!');
         $back.addClass('back');
-        $('.tweets').append($back);
+        if(usersTweets.length < 10) {
+          $('.tweets').append($back);
+        } else {
+          $('.tweets').prepend($back);
+        }
         $('.back').on('click', showAll);
       }
 
@@ -88,6 +94,7 @@
         $timeStamp.addClass('col-md-4');
         $username.addClass('col-md-2 username');
         $newTweet.addClass(nextTweet.user);
+        $newTweet.addClass('col-md-12');
 
         $newTweet.append($username);
         $newTweet.append($message);
@@ -98,9 +105,7 @@
         
         if(refresh) {
           $('.tweets').prepend($newTweet);
-        }
-        $('.username').on('click', filterTweets);
-        
+        }        
         updateTimes();
 
       }
@@ -117,12 +122,14 @@
       
       
       $(document).ready(function(){
-        showTweet();
         $('.tweet').on('click',function() {
           var message = $('.input').val();
           $('.input').val('');
           postTweet({user:visitor, message:message, created_at: new Date()});
         });
+        $('.tweets').on('click','.username', filterTweets);
+        showTweet();
+
       });
 
     </script>
