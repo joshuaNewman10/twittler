@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset='utf-8'>
+    <title>Twittler</title>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <script src="Date.js"></script>
+    <script src="../2015-02-underbar/src/underbar.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="twittler.css">
   </head>
   <body>
     <div class="container">
-      <div class = "row">
+      <div class = "row header">
         <div class ="col-md-2 logo">
         <img src ="Images/angry_bird.jpg" alt="Angry Bird">
         </div>
-        <div class ="col-md-6">
+        <div class ="col-md-6 extra">
+          <div class="row">
+            <div class ="col-md-6 search">
+              <div class="form">
+                <input type="search" value="Search Twittler" class="search-input">
+                <input type="submit" class="search-button">
+            </div>
+            </div>
+            <div class = "col-md-6 log-in">
+              <div class="log">
+                <a>
+                  <small>Have an account?</small>Log In
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
         <div class ="col-md-4">
         <h1>Twittler</h1>
@@ -29,10 +47,22 @@
         </div>
       </div>
       <hr>
-      <div class ="row"> 
-        <div class ="col-md-12 tweets">
+      <div class ="row test"> 
+        <div class = "col-md-2 sidebar">
+          <div class="trends">
+            <h3>Trends</h3>
+            <ul class='trendlist'>
+            </ul>
+          </div>
+          <ul class="nav">
+            <li>About</li>
+            <li>Ads</li>
+            <li>Help</li>
+            <li><img src='Images/angry_bird.jpg'></li>
+          </ul>
         </div>
-      </div>
+        <div class ="col-md-10 tweets">
+        </div>
     </div>
    
 
@@ -41,6 +71,49 @@
       var tweets = [];
       var refresh = true;
       var visitor = prompt("What is your username?");
+      
+      function addTrends() {
+        var trends = [];
+        var $trendList = $('.trendlist');
+        $trendList.html('');
+        for(var i=0; i<5; i++) {
+          trends.push(randomElement(tags.slice(0,tags.length-5)));
+        }
+        trends = _.uniq(trends);
+        trends.forEach(function(trend) {
+          var $li = $('<li></li>');
+          $li.text(trend);
+          $trendList.append($li);
+        });
+        setTimeout(addTrends, Math.random() * 100000);
+      }
+      
+      function searchTweets() {
+        var $input = $('.search-input');
+        var text = $input.val();
+        $input.val('');
+        var matchedTweets = tweets.filter(function(t) {
+          return t.innerText.indexOf(text) > -1;
+        });
+        switchTweets(matchedTweets);
+      }
+
+      function switchTweets(newTweets) {
+        $('.tweets').html('');
+        newTweets.forEach(function(tweet) {
+          $('.tweets').prepend(tweet);
+        });
+
+        var $back = $('<button></button>');
+        $back.text('Back to the stream!');
+        $back.addClass('back');
+        if(newTweets.length < 10) {
+          $('.tweets').append($back);
+        } else {
+          $('.tweets').prepend($back);
+        }
+        $('.back').on('click', showAll);
+      }
 
       function filterTweets() {
         refresh = false;
@@ -48,21 +121,7 @@
         var usersTweets = tweets.filter(function(t) {
           return t.className.indexOf(name) > -1;
         });
-
-        $('.tweets').html('');
-        usersTweets.forEach(function(tweet) {
-          $('.tweets').prepend(tweet);
-        });
-
-        var $back = $('<button></button>');
-        $back.text('Back to the stream!');
-        $back.addClass('back');
-        if(usersTweets.length < 10) {
-          $('.tweets').append($back);
-        } else {
-          $('.tweets').prepend($back);
-        }
-        $('.back').on('click', showAll);
+        switchTweets(usersTweets);
       }
 
       function showAll() {
@@ -91,10 +150,10 @@
         $username.text('@' + nextTweet.user);
         
         $message.addClass('col-md-6');
-        $timeStamp.addClass('col-md-4');
+        $timeStamp.addClass('col-md-2');
         $username.addClass('col-md-2 username');
         $newTweet.addClass(nextTweet.user);
-        $newTweet.addClass('col-md-12');
+        $newTweet.addClass('row');
 
         $newTweet.append($username);
         $newTweet.append($message);
@@ -119,17 +178,22 @@
         setTimeout(showTweet, 10000);
       } 
    
-      
-      
-      $(document).ready(function(){
-        $('.tweet').on('click',function() {
-          var message = $('.input').val();
+      function userTweet() {
+        var message = $('.input').val();
+        if(message.length > 0) {
           $('.input').val('');
           postTweet({user:visitor, message:message, created_at: new Date()});
-        });
-        $('.tweets').on('click','.username', filterTweets);
+        } else {
+          $('.input').val('Write something here!');
+        }
+      }
+      
+      $(document).ready(function(){
+        $('.tweet').on('click', userTweet);
+        $('.tweets').on('click', '.username', filterTweets);
+        $('.search-button').on('click', searchTweets);
         showTweet();
-
+        addTrends();
       });
 
     </script>

@@ -7,8 +7,8 @@ function parseTwitterDate(tdate) {
     var diff = Math.floor((user_date - system_date) / 1000);
     if (diff <= 1) {return "just now";}
     if (diff < 20) {return diff + " seconds ago";}
-    if (diff < 40) {return "half a minute ago";}
-    if (diff < 60) {return "less than a minute ago";}
+    if (diff < 40) {return "over minute ago";}
+    if (diff < 60) {return "under a minute ago";}
     if (diff <= 90) {return "one minute ago";}
     if (diff <= 3540) {return Math.round(diff / 60) + " minutes ago";}
     if (diff <= 5400) {return "1 hour ago";}

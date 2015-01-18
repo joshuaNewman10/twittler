@@ -9,6 +9,30 @@
   box-sizing: border-box;
 }
 
+
+.search {
+  height:100px;
+}
+
+.form{
+  position: relative;
+  top:50px;
+}
+
+.log-in {
+  height:100px;
+  text-align: center;
+}
+
+.log {
+  position: relative;
+  top:50px;
+}
+
+.log small {
+  padding-right: 10px;
+}
+
 body {
   font-family: 'Lato', sans-serif;
 }
@@ -62,4 +86,31 @@ hr {
 
 }
 
+.trends {
+  border-style: ridge;
+}
+
+.trends h3 {
+  text-align: center;
+}
+
+.trendlist li {
+  text-decoration: none;
+}
+
+.nav {
+  padding-left: 0px;
+}
+.nav li{
+  display: inline;
+  text-decoration: none;
+  padding: 6px;
+  color: grey;
+  font-size: 12px;
+}
+
+.nav img {
+  width:20x;
+  height:20px;
+}
 
